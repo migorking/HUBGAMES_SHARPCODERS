@@ -1,4 +1,4 @@
-## PROJETO => hubGames_sharpcoders
+## PROJETO => HubGames_SharpCoders
 
 ## OBJETIVO => eu objetivo aqui é construir uma plataforma de jogos para terminal, usando C#
 
