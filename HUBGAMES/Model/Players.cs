@@ -12,7 +12,7 @@ namespace HUBGAMES.Model
             Recarregar();
         }
 
-        public void RegisterUser(string nick, string password, string email)
+        public void RegisterUser(string nick, string password, string email, int pontos)
         {
 
             Console.WriteLine("DIGITE SEU NICKNAME: ");
@@ -21,12 +21,14 @@ namespace HUBGAMES.Model
             string passwordUsuario = Console.ReadLine();
             Console.WriteLine("DIGITE SEU EMAIL: ");
             string emailUsuario = Console.ReadLine();
+            int pontosUsuario = 0;
 
-            Player user = new Player(nick, password, email);
+            Player user = new Player(nick, password, email, pontos);
             {
                 user.Nick = nomeUsuario;
                 user.Password = passwordUsuario;
                 user.Email = emailUsuario;
+                user.Pontos = pontosUsuario;
             }
 
             PlayerList.Add(user);
@@ -82,7 +84,8 @@ namespace HUBGAMES.Model
             List<Player> players = JsonConvert.DeserializeObject<List<Player>>(jsonString);
             foreach (var item in players)
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"NICKNAME: {item.Nick} | EMAIL: {item.Email} | TOTAL DE PONTOS: {item.Pontos}\n");
+                
             }
         }
 

@@ -22,14 +22,14 @@ namespace HUBGAMES //aqui nome do projeto sempre
             var email = string.Empty;
             
 
-            players.RegisterUser(nick, password, email);
+            //players.RegisterUser(nick, password, email);
             // players.Login(password, email);
 
             //players.DeleteUser(nick, email, password);
 
-            players.ListarTodos();
+            //players.ListarTodos();
 
-            //List<Player> listaPlayers
+            
 
 
             Console.ReadKey();
