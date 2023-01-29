@@ -30,6 +30,7 @@ namespace HUBGAMES //aqui nome do projeto sempre
                 menus.MenuPrincipal();
                 Console.WriteLine("MAKE YOUR CHOICE: ");
                 optionMainMenu = int.Parse(Console.ReadLine());
+                Console.Clear();
 
 
                 switch (optionMainMenu) //start submenu --> definições do usuario
@@ -52,15 +53,27 @@ namespace HUBGAMES //aqui nome do projeto sempre
                                     break;
                                 case 2:
                                     Console.Clear();
-                                    players.Login(password, email);
-                                    players.DeleteUser(nick, email, password);
+
+                                    if (players.Login(password, email) != true)
+                                    {
+                                        Console.Clear();
+                                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                                        Console.WriteLine("\nFINISH HIM!! - SEU LOGIN NÃO PODE SER FEITO\n");
+                                        Console.ResetColor();
+                                    }
+                                    else
+                                    {
+                                        players.DeleteUser(nick, email, password);
+                                    }
                                     break;
                                 case 3:
                                     Console.WriteLine("\nRETORNANDO AO MENU PRINCIPAL...");
                                     break;
-                                default: 
+                                default:
                                     Console.Clear();
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
                                     Console.WriteLine("\nOPÇÃO INVÁLIDA, TENTE NOVAMENTE!!");
+                                    Console.ResetColor();
                                     break;
                             }
                         } while (optionMenuUsuario != 3);
@@ -68,7 +81,35 @@ namespace HUBGAMES //aqui nome do projeto sempre
 
 
                     case 2:
+                        int optionRegrasDoJogo;
+                        do
+                        {
+                            menus.menuRegrasJogo();
+                            Console.WriteLine("ESCOLHA O JOGO QUE VOCÊ QUER CONHECER A HISTORIA E AS REGRAS: ");
+                            optionRegrasDoJogo = Convert.ToInt32(Console.ReadLine());
 
+                            switch (optionRegrasDoJogo)
+                            {
+                                case 1:
+                                    Console.Clear();
+                                    menus.SobreJogoDaVelha();
+                                    break;
+                                case 2:
+                                    menus.SobreBatalhaNaval();
+                                    break;
+                                case 3:
+                                    Console.Clear();
+                                    Console.WriteLine("\nRETORNANDO AO MENU PRINCIPAL...");
+                                    break;
+                                default:
+                                    Console.Clear();
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                                    Console.WriteLine("\nOPÇÃO INVÁLIDA, TENTE NOVAMENTE!!");
+                                    Console.ResetColor();
+                                    break;
+                            }
+
+                        } while (optionRegrasDoJogo != 3);
 
                         break;
                 }
