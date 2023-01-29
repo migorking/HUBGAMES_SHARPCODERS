@@ -8,6 +8,8 @@ using HUBGAMES.Model;
 using HUBGAMES.View;
 using System.Text.Json;
 using static HUBGAMES.Model.HubDeGames;
+using System.ComponentModel;
+using System.Data;
 
 namespace HUBGAMES //aqui nome do projeto sempre
 {
@@ -17,6 +19,7 @@ namespace HUBGAMES //aqui nome do projeto sempre
         {
             Players players = new Players();
             Menus menus = new Menus();
+            JogoDaVelha velha = new JogoDaVelha();
 
             var nick = string.Empty;
             var password = string.Empty;
@@ -26,7 +29,7 @@ namespace HUBGAMES //aqui nome do projeto sempre
             int optionMainMenu;
             do
             {
-                Console.Clear();
+                //Console.Clear();
                 menus.MenuPrincipal();
                 Console.WriteLine("MAKE YOUR CHOICE: ");
                 optionMainMenu = int.Parse(Console.ReadLine());
@@ -95,6 +98,7 @@ namespace HUBGAMES //aqui nome do projeto sempre
                                     menus.SobreJogoDaVelha();
                                     break;
                                 case 2:
+                                    Console.Clear();
                                     menus.SobreBatalhaNaval();
                                     break;
                                 case 3:
@@ -110,7 +114,29 @@ namespace HUBGAMES //aqui nome do projeto sempre
                             }
 
                         } while (optionRegrasDoJogo != 3);
+                        break;
+                    case 3:
+                       /* Console.WriteLine("FAZER LOGIN DO PLAYER1: ");
+                        players.Login(password, email);
+                        Console.WriteLine("FAZER LOGIN DO PLAYER2: ");
+                        players.Login(password, email);
+                        JogoDaVelha velha1 = new JogoDaVelha();
+                        Console.Clear();
+                        velha1.JogarVelha();*/
+                        players.Pontuacao(nick, password, email, pontos);
 
+
+                        break;
+                    case 4:
+
+                        if (players.Login(password, email) != true)
+                        {
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.WriteLine("\nFINISH HIM!! - SEU LOGIN NÃO PODE SER FEITO\n");
+                            Console.ResetColor();
+
+                        }
                         break;
                 }
 
@@ -119,15 +145,6 @@ namespace HUBGAMES //aqui nome do projeto sempre
 
 
             } while (optionMainMenu != 5);
-
-
-
-            //players.RegisterUser(nick, password, email);
-            // players.Login(password, email);
-
-            //players.DeleteUser(nick, email, password);
-
-            //players.ListarTodos();
 
 
 

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using HUBGAMES.View;
 using Newtonsoft.Json;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace HUBGAMES.Model
 {
@@ -20,9 +23,9 @@ namespace HUBGAMES.Model
             Console.Write("DIGITE SEU EMAIL DE ACESSO: ");
             string emailUsuario = Console.ReadLine();
             Console.Write("DIGITE SEU PASSWORD: ");
-            string passwordUsuario = Console.ReadLine();
-            
+            string passwordUsuario = EncryptPass.GetPass();
             int pontosUsuario = 0;
+            
 
             Player user = new Player(nick, password, email, pontos);
             {
@@ -42,23 +45,23 @@ namespace HUBGAMES.Model
 
             bool loginAceito = false;
             int tentativasDeLogin = 0;
-            int tentativas = 1;
+            int tentativas = 3;
 
 
             while (!loginAceito && tentativasDeLogin < tentativas)
             {
-                Console.Clear();
+
                 Console.WriteLine("INICIANDO LOGIN DO USUARIO.\n");
                 Console.WriteLine("INSIRA SEU EMAIL: ");
                 string emailLogin = Console.ReadLine();
                 Console.WriteLine("INSIRA SEU PASSWORD: ");
-                string passwordLogin = Console.ReadLine();
+                string passwordLogin = EncryptPass.GetPass();
 
                 Player user = PlayerList.FirstOrDefault(e => e.Email == emailLogin); // metodo pra encontrar o primeiro dado igual a entrada, nesse caso o email.
                 if (user != null && user.Password == passwordLogin)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine("\nLOGIN FEITO COM SUCESO\n");
+                    Console.WriteLine("\nLOGIN FEITO COM SUCESSO\n");
                     Console.ResetColor();
                     loginAceito = true;
 
@@ -66,7 +69,7 @@ namespace HUBGAMES.Model
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("\nLOGIN NÃO PODE SER FEITO, TENTE NOVAMENTE \n");
+                    Console.WriteLine("\nFINISH HIM!! - SEU LOGIN NÃO PODE SER FEITO\n");
                     Console.ResetColor();
                 }
 
@@ -86,7 +89,7 @@ namespace HUBGAMES.Model
             Console.Write("SEU EMAIL: ");
             string emailDelete = Console.ReadLine();
             Console.Write("SEU PASSWORD: ");
-            string passwordDelete = Console.ReadLine();
+            string passwordDelete = EncryptPass.GetPass();
             Console.ResetColor();
             string jsonString = File.ReadAllText(filePath);
             jsonString.Trim();
@@ -99,7 +102,7 @@ namespace HUBGAMES.Model
             Console.WriteLine("\nCRITICAL HIT!!");
             Console.WriteLine("\nGAME OVER! SUA CONTA DELETADA COM SUCESSO!\n");
             Console.ResetColor();
-            
+
         }
 
 
@@ -117,15 +120,15 @@ namespace HUBGAMES.Model
         }
 
 
-        private void Salvar() // metodo para serializar e salvar o arquivo json
+        public void Salvar() // metodo para serializar e salvar o arquivo json
         {
             string filePath = @"E:\SHARPCODERS\PROJETOS SHARPCODERS\HUBGAMES\Data\user.json";
             string jsonSalvar = JsonConvert.SerializeObject(PlayerList);
             File.WriteAllText(filePath, jsonSalvar);
 
 
-        } 
-        private void Recarregar() // metodo para deserializar, por em uma lista e dar opcao de manipular o json
+        }
+        public void Recarregar() // metodo para deserializar, por em uma lista e dar opcao de manipular o json
         {
             string filePath = @"E:\SHARPCODERS\PROJETOS SHARPCODERS\HUBGAMES\Data\user.json";
             if (File.Exists(filePath))
@@ -133,10 +136,44 @@ namespace HUBGAMES.Model
                 string jsonLer = File.ReadAllText(filePath);
                 PlayerList = JsonConvert.DeserializeObject<List<Player>>(jsonLer);
 
+            }
+
+        }
+        public void Pontuacao(string nick, string password, string email, int pontos)
+        {
+            List<Player> scores = new List<Player>();
+            string filePath = @"E:\SHARPCODERS\PROJETOS SHARPCODERS\HUBGAMES\Data\user.json";
+            if (File.Exists(filePath))
+            {
+                string jsonPoints = System.IO.File.ReadAllText(filePath);
+                scores = JsonConvert.DeserializeObject<List<Player>>(jsonPoints);
+            }
+
+            bool playerExiste = false;
+            Console.WriteLine("YOU WIN!");
+            Console.WriteLine("FORNECA SEUS DADOS PARA O RANKING: ");
+            Console.Write("SEU NICK REGISTRADO: ");
+            string playerWin = Console.ReadLine();
+            Console.Write("\nOBRIGADO, GERANDO SUA PONTUACAO! ");
+            int playerPonto = 10;
+
+            
+            foreach (var p in scores)
+            {
+                if (p.Nick == playerWin)
+                {
+                    p.Pontos += playerPonto;
+                    playerExiste = true;
+                    
+                }
+                //salvar o json
+                string jsonSalvarPoints = JsonConvert.SerializeObject(scores);
+                File.WriteAllText(filePath, jsonSalvarPoints);
+                Console.WriteLine("PONTUAÇÃO GERADA COM SUCESSO");
 
             }
 
-        } 
+        }
 
     }
 }
