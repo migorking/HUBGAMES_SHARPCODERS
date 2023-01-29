@@ -33,7 +33,7 @@ namespace HUBGAMES.Model
 
             PlayerList.Add(user);
             Salvar();
-
+            
         }
 
         public bool Login(string password, string email) // faz o login do usuario
