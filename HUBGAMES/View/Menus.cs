@@ -41,6 +41,15 @@ namespace HUBGAMES.View
 
         }
 
+        public void menuRanking()
+        {
+            Console.WriteLine("CHAMPIONS AREA");
+            Console.WriteLine("1. WORLD RANKING");
+            Console.WriteLine("2. TODOS OS PLAYERS");
+            Console.WriteLine("3. FAQ");
+            Console.WriteLine("4. MENU PRINCIPAL");
+        }
+
         public void SobreJogoDaVelha()
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;

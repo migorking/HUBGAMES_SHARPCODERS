@@ -25,7 +25,7 @@ namespace HUBGAMES.Model
             Console.Write("DIGITE SEU PASSWORD: ");
             string passwordUsuario = EncryptPass.GetPass();
             int pontosUsuario = 0;
-            
+
 
             Player user = new Player(nick, password, email, pontos);
             {
@@ -150,26 +150,30 @@ namespace HUBGAMES.Model
             }
 
             bool playerExiste = false;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("YOU WIN!");
+            Console.ResetColor();
             Console.WriteLine("FORNECA SEUS DADOS PARA O RANKING: ");
             Console.Write("SEU NICK REGISTRADO: ");
             string playerWin = Console.ReadLine();
-            Console.Write("\nOBRIGADO, GERANDO SUA PONTUACAO! ");
+            Console.Write("\nOBRIGADO, ESTAMOS GERANDO SUA PONTUACAO!");
             int playerPonto = 10;
 
-            
+
             foreach (var p in scores)
             {
                 if (p.Nick == playerWin)
                 {
                     p.Pontos += playerPonto;
                     playerExiste = true;
-                    
                 }
                 //salvar o json
                 string jsonSalvarPoints = JsonConvert.SerializeObject(scores);
                 File.WriteAllText(filePath, jsonSalvarPoints);
-                Console.WriteLine("PONTUAÇÃO GERADA COM SUCESSO");
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("\nPONTUAÇÃO GERADA COM SUCESSO\n");
+                Console.WriteLine($"SUA PONTUAÇÃO ATUAL É: {p.Pontos}");
 
             }
 

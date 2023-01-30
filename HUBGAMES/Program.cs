@@ -20,6 +20,8 @@ namespace HUBGAMES //aqui nome do projeto sempre
             Players players = new Players();
             Menus menus = new Menus();
             JogoDaVelha velha = new JogoDaVelha();
+            BatalhaNaval bN = new BatalhaNaval();
+
 
             var nick = string.Empty;
             var password = string.Empty;
@@ -115,21 +117,27 @@ namespace HUBGAMES //aqui nome do projeto sempre
 
                         } while (optionRegrasDoJogo != 3);
                         break;
-                    case 3:
-                       /* Console.WriteLine("FAZER LOGIN DO PLAYER1: ");
-                        players.Login(password, email);
-                        Console.WriteLine("FAZER LOGIN DO PLAYER2: ");
-                        players.Login(password, email);
-                        JogoDaVelha velha1 = new JogoDaVelha();
+                    case 3: // fazer o if se o login for mal sucedido
+                        bool loginAceito = false;
+                        while (!loginAceito)
+                        {
+                            if (players.Login(password, email) == true)
+                            {
+                                
+                                loginAceito = true;
+                            }
+                        }
                         Console.Clear();
-                        velha1.JogarVelha();*/
+                        Console.WriteLine("\n\nSTARTING GAME.......\n\n");
+                        velha.JogarVelha();
                         players.Pontuacao(nick, password, email, pontos);
-
 
                         break;
                     case 4:
+                        BatalhaNaval batalhaN = new BatalhaNaval();
+                        batalhaN.JogarBatalhaNaval();
 
-                        if (players.Login(password, email) != true)
+
                         {
                             Console.Clear();
                             Console.ForegroundColor = ConsoleColor.DarkRed;
