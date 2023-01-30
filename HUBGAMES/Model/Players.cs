@@ -68,6 +68,7 @@ namespace HUBGAMES.Model
                 }
                 else
                 {
+                    Console.Clear();
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("\nFINISH HIM!! - SEU LOGIN NÃO PODE SER FEITO\n");
                     Console.ResetColor();
@@ -145,8 +146,9 @@ namespace HUBGAMES.Model
             string filePath = @"E:\SHARPCODERS\PROJETOS SHARPCODERS\HUBGAMES\Data\user.json";
             if (File.Exists(filePath))
             {
-                string jsonPoints = System.IO.File.ReadAllText(filePath);
+                string jsonPoints = File.ReadAllText(filePath);
                 scores = JsonConvert.DeserializeObject<List<Player>>(jsonPoints);
+
             }
 
             bool playerExiste = false;
@@ -159,22 +161,54 @@ namespace HUBGAMES.Model
             Console.Write("\nOBRIGADO, ESTAMOS GERANDO SUA PONTUACAO!");
             int playerPonto = 10;
 
-
-            foreach (var p in scores)
+            while (!playerExiste)
             {
-                if (p.Nick == playerWin)
+
+                foreach (var p in scores)
                 {
-                    p.Pontos += playerPonto;
-                    playerExiste = true;
+                    if (p.Nick == playerWin)
+                    {
+                        p.Pontos += playerPonto;
+                        playerExiste = true;
+                        break;
+                    }
                 }
+
                 //salvar o json
                 string jsonSalvarPoints = JsonConvert.SerializeObject(scores);
                 File.WriteAllText(filePath, jsonSalvarPoints);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("\nPONTUAÇÃO GERADA COM SUCESSO\n");
-                Console.WriteLine($"SUA PONTUAÇÃO ATUAL É: {p.Pontos}");
 
+                string jsonPoints = File.ReadAllText(filePath);
+                scores = JsonConvert.DeserializeObject<List<Player>>(jsonPoints);
+
+                if (!playerExiste)
+                {
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("\nUSUARIO NÃO ENCONTRADO\n");
+                    Console.Write("TENTE MAIS UMA VEZ: ");
+                    playerWin = Console.ReadLine();
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine("\nPONTUAÇÃO GERADA COM SUCESSO\n");
+
+                    foreach (var points in scores)
+                    {
+                        if (points.Nick == playerWin)
+                        {
+                            Console.WriteLine($"SUA PONTUAÇÃO ATUAL É: {points.Pontos}");
+                        }
+                    }
+                    Console.ResetColor();
+
+                }
             }
 
         }

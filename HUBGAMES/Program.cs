@@ -90,7 +90,8 @@ namespace HUBGAMES //aqui nome do projeto sempre
                         do
                         {
                             menus.menuRegrasJogo();
-                            Console.WriteLine("ESCOLHA O JOGO QUE VOCÊ QUER CONHECER A HISTORIA E AS REGRAS: ");
+
+                            Console.Write("\nMAKE YOUR CHOICE: ");
                             optionRegrasDoJogo = Convert.ToInt32(Console.ReadLine());
 
                             switch (optionRegrasDoJogo)
@@ -117,15 +118,17 @@ namespace HUBGAMES //aqui nome do projeto sempre
 
                         } while (optionRegrasDoJogo != 3);
                         break;
-                    case 3: // fazer o if se o login for mal sucedido
+                    case 3: // Aqui faz o login e joga jogo da velha.
                         bool loginAceito = false;
+
                         while (!loginAceito)
                         {
-                            if (players.Login(password, email) == true)
+
+                            if (players.Login(password, email) == !false)
                             {
-                                
                                 loginAceito = true;
                             }
+
                         }
                         Console.Clear();
                         Console.WriteLine("\n\nSTARTING GAME.......\n\n");
@@ -133,9 +136,22 @@ namespace HUBGAMES //aqui nome do projeto sempre
                         players.Pontuacao(nick, password, email, pontos);
 
                         break;
+
                     case 4:
-                        BatalhaNaval batalhaN = new BatalhaNaval();
-                        batalhaN.JogarBatalhaNaval();
+                        bool loginOk = false;
+
+                        while (!loginOk)
+                        {
+
+                            if (players.Login(password, email) == !false)
+                            {
+                                loginOk = true;
+                            }
+
+                        }
+                        Console.Clear();
+                        bN.JogarBatalhaNaval();
+                        
 
 
                         {
