@@ -15,7 +15,7 @@ namespace HUBGAMES.Model
         {
 
             int[,] tabuleiro = new int[10, 10];
-            int[] navios = { 2, 2 }; //Diminuir a quantidade de navios para apresentação
+            int[] navios = { 2, 2, 3, 4 }; //Diminuir a quantidade de navios para apresentação
             Random rndNavios = new Random();
 
             foreach (int n in navios)
@@ -58,7 +58,7 @@ namespace HUBGAMES.Model
             int tentativas = 0;
             int acertos = 0;
 
-            while (acertos < 4) // quantidades de navios = a quantidade de acertos para ganhar, sempre que aumentar a frota esse numero tem que ser alterado
+            while (acertos < 11) // quantidades de navios = a quantidade de acertos para ganhar, sempre que aumentar a frota esse numero tem que ser alterado
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("\nBATALHA NAVAL\n");
