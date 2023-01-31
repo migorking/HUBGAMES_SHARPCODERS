@@ -83,8 +83,10 @@ namespace HUBGAMES.Model
         public void DeleteUser(string nick, string email, string password)
         {
             string filePath = @"E:\SHARPCODERS\PROJETOS SHARPCODERS\HUBGAMES\Data\user.json";
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("\nA ÚNICA COISA QUE VOCÊ PODE CONTROLAR SÃO SUAS ESCOLHAS...");
             Console.WriteLine("E VOCE FEZ A SUA...\n");
+            Console.ResetColor();
             Console.Write("ME FALE SEU NICKNAME PELA ÚLTIMA VEZ: ");
             string usuarioDelete = Console.ReadLine();
             Console.Write("SEU EMAIL: ");
@@ -110,14 +112,25 @@ namespace HUBGAMES.Model
         public void ListarTodos()
         {
             string filePath = @"E:\SHARPCODERS\PROJETOS SHARPCODERS\HUBGAMES\Data\user.json";
-            string jsonString = File.ReadAllText(filePath);
-            jsonString.Trim();
-            List<Player> players = JsonConvert.DeserializeObject<List<Player>>(jsonString);
-            foreach (var item in players)
+            string jsonList = File.ReadAllText(filePath);
+            jsonList.Trim();
+            List<Player> players = JsonConvert.DeserializeObject<List<Player>>(jsonList);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("\nDEATH NOTE x_x");
+            Console.ResetColor();
+            foreach (var i in players)
             {
-                Console.WriteLine($"NICKNAME: {item.Nick} | EMAIL: {item.Email} | TOTAL DE PONTOS: {item.Pontos}\n");
 
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine($"\nNICKNAME: {i.Nick} | EMAIL: {i.Email} | TOTAL DE PONTOS: {i.Pontos}\n");
+                
             }
+            Console.WriteLine("-------------------------------------------------------------------");
+            Console.ResetColor();
+            jsonList = JsonConvert.SerializeObject(players);
+            File.WriteAllText(filePath, jsonList);
+            
         }
 
 
@@ -140,7 +153,7 @@ namespace HUBGAMES.Model
             }
 
         }
-        public void Pontuacao(string nick, string password, string email, int pontos)
+        public void PontuacaoJogoDaVelha(string nick, string password, string email, int pontos)
         {
             List<Player> scores = new List<Player>();
             string filePath = @"E:\SHARPCODERS\PROJETOS SHARPCODERS\HUBGAMES\Data\user.json";
@@ -213,5 +226,36 @@ namespace HUBGAMES.Model
 
         }
 
+        public void RankingTotal(string nick, int pontos)
+        {
+            List<Player> ranking = new List<Player>();
+
+            string filePath = @"E:\SHARPCODERS\PROJETOS SHARPCODERS\HUBGAMES\Data\user.json";
+            if (File.Exists(filePath))
+            {
+                string jsonRanking = File.ReadAllText(filePath);
+                ranking = JsonConvert.DeserializeObject<List<Player>>(jsonRanking);
+
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("TOP RANKING - HUB GAMES DA SHARP CODERS\n");
+
+                var rankingOrdernado = ranking.OrderByDescending(point => point.Pontos).ToList();
+
+                int rank = 1;
+                foreach (var position in rankingOrdernado)
+                {
+
+                    Console.WriteLine($"{rank}. {position.Nick}: {position.Pontos} PONTOS\n");
+                    rank++;
+                }
+                Console.ResetColor();
+
+            }
+
+
+
+
+        }
     }
 }

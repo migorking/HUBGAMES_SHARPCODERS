@@ -21,6 +21,7 @@ namespace HUBGAMES //aqui nome do projeto sempre
             Menus menus = new Menus();
             JogoDaVelha velha = new JogoDaVelha();
             BatalhaNaval bN = new BatalhaNaval();
+            AdivinhaNumero adivinhaNum = new AdivinhaNumero();
 
 
             var nick = string.Empty;
@@ -31,9 +32,9 @@ namespace HUBGAMES //aqui nome do projeto sempre
             int optionMainMenu;
             do
             {
-                //Console.Clear();
+
                 menus.MenuPrincipal();
-                Console.WriteLine("MAKE YOUR CHOICE: ");
+                Console.Write("MAKE YOUR CHOICE: ");
                 optionMainMenu = int.Parse(Console.ReadLine());
                 Console.Clear();
 
@@ -45,7 +46,7 @@ namespace HUBGAMES //aqui nome do projeto sempre
                         do
                         {
                             menus.menuDefinirUsuario();
-                            Console.WriteLine("\nDIGITE A OPÇÃO DESEJADA: ");
+                            Console.Write("\nMAKE YOUR CHOICE: ");
                             optionMenuUsuario = Convert.ToInt32(Console.ReadLine());
 
 
@@ -71,9 +72,17 @@ namespace HUBGAMES //aqui nome do projeto sempre
                                         players.DeleteUser(nick, email, password);
                                     }
                                     break;
+
                                 case 3:
-                                    Console.WriteLine("\nRETORNANDO AO MENU PRINCIPAL...");
+                                    Console.Clear();
+                                    players.ListarTodos();
                                     break;
+
+                                case 4:
+                                    Console.WriteLine("\nRETORNANDO AO MENU PRINCIPAL...");
+                                    Console.Clear();
+                                    break;
+
                                 default:
                                     Console.Clear();
                                     Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -81,7 +90,7 @@ namespace HUBGAMES //aqui nome do projeto sempre
                                     Console.ResetColor();
                                     break;
                             }
-                        } while (optionMenuUsuario != 3);
+                        } while (optionMenuUsuario != 4);
                         break;
 
 
@@ -106,6 +115,14 @@ namespace HUBGAMES //aqui nome do projeto sempre
                                     break;
                                 case 3:
                                     Console.Clear();
+                                    menus.SobreAdivinhaNumero();
+                                    break;
+                                case 4:
+                                    Console.Clear();
+                                    menus.SobreFAQ();
+                                    break;
+                                case 5:
+                                    Console.Clear();
                                     Console.WriteLine("\nRETORNANDO AO MENU PRINCIPAL...");
                                     break;
                                 default:
@@ -116,59 +133,113 @@ namespace HUBGAMES //aqui nome do projeto sempre
                                     break;
                             }
 
-                        } while (optionRegrasDoJogo != 3);
+                        } while (optionRegrasDoJogo != 5);
                         break;
+
                     case 3: // Aqui faz o login e joga jogo da velha.
-                        bool loginAceito = false;
+                        bool loginTicToe = false;
 
-                        while (!loginAceito)
+                        while (!loginTicToe)
                         {
-
-                            if (players.Login(password, email) == !false)
+                            Console.WriteLine("LOGIN PLAYER 1: ");
+                            players.Login(password, email);
+                            Console.WriteLine("LOGIN PLAYER 2: ");
+                            if (players.Login(password, email) == true)
                             {
-                                loginAceito = true;
+                                loginTicToe = true;
                             }
 
                         }
                         Console.Clear();
                         Console.WriteLine("\n\nSTARTING GAME.......\n\n");
                         velha.JogarVelha();
-                        players.Pontuacao(nick, password, email, pontos);
-
+                        players.PontuacaoJogoDaVelha(nick, password, email, pontos);
                         break;
 
                     case 4:
-                        bool loginOk = false;
+                        bool loginBn = false;
 
-                        while (!loginOk)
+                        while (!loginBn)
                         {
 
                             if (players.Login(password, email) == !false)
                             {
-                                loginOk = true;
+                                loginBn = true;
                             }
 
                         }
                         Console.Clear();
+                        Console.WriteLine("\n\nSTARTING GAME.......\n\n");
                         bN.JogarBatalhaNaval();
-                        
+                        bN.PontuacaoBatalhaNaval(nick, password, email, pontos);
+                        break;
 
 
+                    case 5:
+                        bool loginAdivinhaNum = false;
+
+                        while (!loginAdivinhaNum)
                         {
-                            Console.Clear();
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.WriteLine("\nFINISH HIM!! - SEU LOGIN NÃO PODE SER FEITO\n");
-                            Console.ResetColor();
+
+                            if (players.Login(password, email) == !false)
+                            {
+                                loginAdivinhaNum = true;
+                            }
 
                         }
+                        Console.Clear();
+                        Console.WriteLine("\n\nSTARTING GAME.......\n\n");
+                        adivinhaNum.JogarAdivinhaNumero();
+                        adivinhaNum.PontuacaoAdivinhaNum(nick, password, email, pontos);
+
+                        break;
+
+                    case 6: // parte de ranking
+                        int optionRanking;
+                        do
+                        {
+                            menus.menuRanking();
+                            Console.Write("\nMAKE YOUR CHOICE: ");
+                            optionRanking = Convert.ToInt32(Console.ReadLine());
+
+                            switch (optionRanking)
+                            {
+                                case 1:
+                                    players.RankingTotal(nick, pontos);
+                                    break;
+
+                                case 2:
+                                    players.ListarTodos();
+                                    break;
+
+                                case 3:
+                                    Console.Clear();
+                                    Console.WriteLine("\nRETORNANDO AO MENU PRINCIPAL...");
+                                    break;
+
+                                default:
+                                    Console.Clear();
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                                    Console.WriteLine("\nOPÇÃO INVÁLIDA, TENTE NOVAMENTE!!\n");
+                                    Console.ResetColor();
+                                    break;
+                            }
+
+                        } while (optionRanking != 3);
+                        break;
+                    case 7:
+                        menus.GoodBye();
+                        break;
+
+                    default:
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("\nOPÇÃO INVÁLIDA, TENTE NOVAMENTE!!\n");
+                        Console.ResetColor();
                         break;
                 }
 
-
-
-
-
-            } while (optionMainMenu != 5);
+            } while (optionMainMenu != 7);
 
 
 
